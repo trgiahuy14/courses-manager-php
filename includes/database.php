@@ -7,40 +7,76 @@ if(!defined('_HIENUE')){
 function getAll($sql){
     global $conn;
     $stm = $conn -> prepare($sql);
-
     $stm -> execute();
-    
     $result = $stm -> fetchAll(PDO::FETCH_ASSOC); 
     return $result;
+}
+
+// Đếm số dòng trả về
+function getRows($sql){
+    global $conn;
+    $stm = $conn -> prepare($sql);
+    $stm -> execute();
+    return $stm -> rowCount();
 }
 
 // Truy vấn 1 dòng dữ liệu
 function getOne($sql){
     global $conn;
     $stm = $conn -> prepare($sql);
-
     $stm -> execute();
-    
     $result = $stm -> fetch(PDO::FETCH_ASSOC); 
     return $result;
 }
 
 // Insert dữ liệu
 function insert($table, $data){
-    // $data = ['name'=> 'huy',
-    //     'email' => 'huy@gmail.com', 
-    //     'phone' => '090143854'];
-
-    $key = array_keys($data);
-    echo '<pre>';
-    print_r($key);
-    echo '</pre>';
-
     global $conn;
-    $sql = "INSERT INTO sinhvien ('name', 'email', 'phone') VALUES (':name', ':email', ':phone')";
-    $stm = $conn -> prepare($sql);
 
-    $stm -> execute();
-
+    $keys = array_keys($data);
+    $column = implode(',',$keys); # phân tách keys
+    $placeh = ':' . implode(',:',$keys);
     
+    $sql = "INSERT INTO $table ($column) VALUES ($placeh)";
+ 
+    $stm = $conn -> prepare($sql);
+    $stm -> execute($data);    
+}
+
+// Update  dữ liệu
+function update($table, $data, $condition =''){
+    global $conn;
+    $update = '';
+    foreach ($data as $key => $value){
+        $update .= $key . '=:' . $key . ',';
+    }
+    $update = trim($update,',');
+    
+    if(!empty($condition)){
+        $sql = "UPDATE $table SET $update WHERE $condition";
+    } else {
+        $sql = "UPDATE $table SET $update";
+    }
+    
+    $stm = $conn -> prepare($sql);
+    $stm -> execute($data);
+}
+
+// Delete dữ liệu
+function delete($table, $condition=''){
+    global $conn;
+    
+    if(!empty($condition)){
+        $sql = "DELETE FROM $table WHERE $condition";
+    } else {
+        $sql = "DELETE FROM $table";
+    }
+
+    $stm = $conn -> prepare($sql);
+    $stm -> execute();
+}
+
+function lastID(){
+    global $conn;
+    return $conn -> lastInsertID();
 }
