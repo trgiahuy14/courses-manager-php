@@ -6,16 +6,15 @@ ob_start();
 require_once './config.php';
 require_once './includes/connect.php';
 require_once './includes/database.php';
-
+require_once './includes/session.php';
+require_once './templates/index.php';
 
 // Mặc định là module dashboard, action là file index.php (chỉnh trong config.php)
 $module = _MODULES;
 $action = _ACTION;
 
-$data = ['name'=> 'huy', 'email' => 'huy@gmail.com',  'phone' => '090143854'];
 
-insert('sinhvien',$data);
-
+// Lấy path
 if(!empty($_GET['module'])){
     $module = $_GET['module'];
 }
