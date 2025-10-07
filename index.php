@@ -3,6 +3,12 @@ date_default_timezone_set('Asia/Ho_Chi_Minh');
 session_start();
 ob_start();
 
+// Load file .env
+$env = parse_ini_file(__DIR__ . '/.env');
+foreach ($env as $key => $value) {
+    putenv("$key=$value");
+}
+
 require_once './config.php';
 require_once './includes/connect.php';
 require_once './includes/database.php';
@@ -18,7 +24,6 @@ require_once './includes/functions.php';
 
 
 // Mặc định là module dashboard, action là file index.php (chỉnh trong config.php)
-
 $module = _MODULES;
 $action = _ACTION;
 

@@ -10,10 +10,11 @@ function layout($layoutName, $data = [])
     }
 }
 
+// Hàm gửi mail
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-// Hàm gửi mail
+
 function sendMail($emailTo, $subject, $content)
 {
 
@@ -26,13 +27,13 @@ function sendMail($emailTo, $subject, $content)
         $mail->isSMTP();                                            //Send using SMTP
         $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
         $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-        $mail->Username   = 'REDACTED';                     //SMTP username
-        $mail->Password   = 'REDACTED';                               //SMTP password
+        $mail->Username   = getenv('MAIL_USER');                     //SMTP username
+        $mail->Password   = getenv('MAIL_PASS');                               //SMTP password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
         $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
         //Recipients
-        $mail->setFrom('REDACTED', 'Admin');
+        $mail->setFrom(getenv('MAIL_USER'), 'Admin');
         $mail->addAddress($emailTo);     //Add a recipient
 
 
