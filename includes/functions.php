@@ -47,3 +47,79 @@ function sendMail($emailTo, $subject, $content)
         echo "Gửi thất bại. Mailer Error: {$mail->ErrorInfo}";
     }
 }
+
+// Kiểm tra phương thức POST
+function isPost()
+{
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        return true;
+    }
+    return false;
+}
+
+// Kiểm tra phương thức POST
+function isGet()
+{
+    if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+        return true;
+    }
+    return false;
+}
+
+// Hàm lọc dữ liệu
+function filterData($method = '')
+{
+    $filterArr = [];
+    if (empty($method)) {
+        if (isGet()) {
+            if (!empty($_GET)) {
+                foreach ($_GET as $key => $value) {
+                    $key = strip_tags($key);
+                    if (is_array($value)) {
+                        $filterArr[$key] = filter_var($_GET[$key], FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
+                    } else {
+                        $filterArr[$key] = filter_var($_GET[$key], FILTER_SANITIZE_SPECIAL_CHARS);
+                    }
+                }
+            }
+        }
+
+        if (isPost()) {
+            if (!empty($_POST)) {
+                foreach ($_POST as $key => $value) {
+                    $key = strip_tags($key);
+                    if (is_array($value)) {
+                        $filterArr[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
+                    } else {
+                        $filterArr[$key] = filter_input(INPUT_POST, $key,  FILTER_SANITIZE_SPECIAL_CHARS);
+                    }
+                }
+            }
+        }
+    } else {
+        if ($method == 'get') {
+            if (!empty($_GET)) {
+                foreach ($_GET as $key => $value) {
+                    $key = strip_tags($key);
+                    if (is_array($value)) {
+                        $filterArr[$key] = filter_var($_GET[$key], FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
+                    } else {
+                        $filterArr[$key] = filter_var($_GET[$key], FILTER_SANITIZE_SPECIAL_CHARS);
+                    }
+                }
+            }
+        } else if ($method == 'post') {
+            if (!empty($_POST)) {
+                foreach ($_POST as $key => $value) {
+                    $key = strip_tags($key);
+                    if (is_array($value)) {
+                        $filterArr[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
+                    } else {
+                        $filterArr[$key] = filter_input(INPUT_POST, $key,  FILTER_SANITIZE_SPECIAL_CHARS);
+                    }
+                }
+            }
+        }
+    }
+    return $filterArr;
+}
