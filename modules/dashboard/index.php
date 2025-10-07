@@ -1,17 +1,17 @@
 <?php
-if(!defined('_HIENUE')){
+if (!defined('_HIENUE')) {
     die('Truy cập không hợp lệ');
 }
 
-require_once './templates/layout/header.php';
-require_once './templates/layout/sidebar.php';
+require_once './templates/layouts/header.php';
+require_once './templates/layouts/sidebar.php';
 
 ?>
 
 <!--begin::App Main-->
 <main class="app-main">
-    <?php 
-    require_once './templates/layout/breadcrumb.php'
+    <?php
+    require_once './templates/layouts/breadcrumb.php'
     ?>
     <!--end::App Content Header-->
     <!--begin::App Content-->
@@ -129,7 +129,7 @@ require_once './templates/layout/sidebar.php';
                 <!--end::Col-->
             </div>
             <!--end::Row-->
-            
+
             <!-- /.row (main row) -->
         </div>
         <!--end::Container-->
@@ -139,4 +139,4 @@ require_once './templates/layout/sidebar.php';
 <!--end::App Main-->
 
 <?php
-require_once './templates/layout/footer.php';
+require_once './templates/layouts/footer.php';
