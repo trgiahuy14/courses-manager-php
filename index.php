@@ -7,7 +7,10 @@ require_once './config.php';
 require_once './includes/connect.php';
 require_once './includes/database.php';
 require_once './includes/session.php';
-require_once './templates/index.php';
+require_once './includes/functions.php';
+
+
+require_once './templates/layouts/index.php';
 
 // Mặc định là module dashboard, action là file index.php (chỉnh trong config.php)
 $module = _MODULES;

@@ -2,8 +2,10 @@
 if(!defined('_HIENUE')){
     die('Truy cập không hợp lệ');
 }
-require_once './templates/layout/header-auth.php';
-
+$data = [
+    'title' => 'Đăng ký tài khoản'
+];
+layout('header-auth', $data);
 ?>
 
 <section class="vh-100">
@@ -68,4 +70,4 @@ require_once './templates/layout/header-auth.php';
 
 <?php
 
-require_once './templates/layout/footer.php';
+layout('footer');
