@@ -7,13 +7,69 @@ $data = [
 ];
 layout('header-auth', $data);
 
-if (!empty($_POST)) {
-  $filterArr = filterData();
-  echo '<pre>';
-  print_r($filterArr);
-  echo '</pre>';
-  die();
+// Validate
+
+if (!empty(isPost())) {
+  $filter = filterData();
+  $errors = [];
+
+  // Validate fullname
+  if (empty(trim($filter['fullname']))) {
+    $errors['fullname']['required'] = 'Họ tên bắt buộc phải nhập';
+  } else {
+    if (strlen(trim($filter['fullname'])) < 5) {
+      $errors['fullname']['length'] = 'Họ tên phải lớn hơn 5 ký tự';
+    }
+  }
+
+  // Validate Email
+  if (empty(trim($filter['email']))) {
+    $errors['email']['required'] = 'Email bắt buộc phải nhập';
+  } else {
+    if (! validateEmail(trim($filter['email']))) {
+      $erros['email']['isEmail'] = 'Email không đúng định dạng';
+    } else {
+      $email = $filter['email'];
+      $checkEmail = getRows("SELECT * FROM users WHERE email = '$email'");
+      if ($checkEmail > 0) {
+        $errors['email']['check'] = 'Email đã tồn tại';
+      }
+    }
+  }
+
+  // Validate phone
+  if (empty($filter['phone'])) {
+    $errors['phone']['required'] = 'Số điện thoại bắt buộc phải nhập';
+  } else {
+    if (! isPhone($filter['phone'])) {
+      $errors['phone']['isPhone'] = 'Số điện thoại không đúng định dạng';
+    }
+  }
+
+  // Validate password
+  if (empty($filter['password'])) {
+    $errors['password']['required'] = 'Mật khẩu bắt buộc phải nhập';
+  } else {
+    if (strlen(trim($filter['password']) < 6)) {
+      $errors['password']['length'] = 'Mật khẩu phải dài hơn 6 ký tự';
+    }
+  }
+
+  // Validate confirm pass
+  if (empty($filter['confirm_pass'])) {
+    $errors['confirm_pass']['required'] = 'Vui lòng nhập lại mật khẩu';
+  } else {
+    if (trim($filter['confirm_pass'] < 6) !== trim($filter['password'])) {
+      $errors['confirm_pass']['like'] = 'Mật khẩu nhập lại không khớp';
+    }
+  }
+  if (!empty($errors)) {
+    echo '<pre>';
+    print_r($errors);
+    echo '</pre>';
+  }
 }
+
 ?>
 
 <section class="vh-100">
@@ -30,17 +86,21 @@ if (!empty($_POST)) {
 
           </div>
 
+
           <!-- Register form -->
+          <!-- Full name -->
           <div data-mdb-input-init class="form-outline mb-4">
             <input name="fullname" type="Text" class="form-control form-control-lg"
               placeholder="Họ tên" />
           </div>
 
+          <!-- Email -->
           <div data-mdb-input-init class="form-outline mb-4">
-            <input name="email" type="email" class="form-control form-control-lg"
+            <input name="email" type="text" class="form-control form-control-lg"
               placeholder="Địa chỉ email" />
           </div>
 
+          <!-- Phone number -->
           <div data-mdb-input-init class="form-outline mb-4">
             <input name="phone" type="text" class="form-control form-control-lg"
               placeholder="Nhập số điện thoại" />
