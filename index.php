@@ -19,7 +19,6 @@ require_once './includes/mailer/Exception.php';
 require_once './includes/mailer/PHPMailer.php';
 require_once './includes/mailer/SMTP.php';
 
-
 require_once './includes/functions.php';
 
 

@@ -13,3 +13,9 @@
     height: 100%;
   }
 }
+
+.error {
+  padding: 5px;
+  font-style: italic;
+  color: red;
+}

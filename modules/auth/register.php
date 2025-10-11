@@ -27,7 +27,7 @@ if (!empty(isPost())) {
     $errors['email']['required'] = 'Email bắt buộc phải nhập';
   } else {
     if (! validateEmail(trim($filter['email']))) {
-      $erros['email']['isEmail'] = 'Email không đúng định dạng';
+      $errors['email']['isEmail'] = 'Email không đúng định dạng';
     } else {
       $email = $filter['email'];
       $checkEmail = getRows("SELECT * FROM users WHERE email = '$email'");
@@ -59,19 +59,24 @@ if (!empty(isPost())) {
   if (empty($filter['confirm_pass'])) {
     $errors['confirm_pass']['required'] = 'Vui lòng nhập lại mật khẩu';
   } else {
-    if (trim($filter['confirm_pass'] < 6) !== trim($filter['password'])) {
+    if (trim($filter['confirm_pass']) !== trim($filter['password'])) {
       $errors['confirm_pass']['like'] = 'Mật khẩu nhập lại không khớp';
     }
   }
-  if (!empty($errors)) {
-    echo '<pre>';
-    print_r($errors);
-    echo '</pre>';
+
+  if (empty($errors)) {
+    $msg = 'Đăng ký thành công';
+    $msg_type = 'success';
+  } else {
+    $msg = 'Dữ liệu không hợp lệ, hãy kiểm tra lại';
+    $msg_type = 'danger';
+    setSessionFlash('errors', $errors);
   }
+
+  $errorsArr = getSessionFlash('errors');
 }
 
 ?>
-
 <section class="vh-100">
   <div class="container-fluid h-custom">
     <div class="row d-flex justify-content-center align-items-center h-100">
@@ -80,6 +85,9 @@ if (!empty(isPost())) {
           class="img-fluid" alt="Sample image">
       </div>
       <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+
+        <?php getMsg($msg, $msg_type) ?>
+
         <form method="POST" action="" enctype="multipart/form-data">
           <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
             <h2 class="fw-normal mb-5 me-3">Đăng ký tài khoản</h2>
@@ -92,18 +100,23 @@ if (!empty(isPost())) {
           <div data-mdb-input-init class="form-outline mb-4">
             <input name="fullname" type="Text" class="form-control form-control-lg"
               placeholder="Họ tên" />
+            <?php echo formError($errorsArr, 'fullname') ?>
           </div>
 
           <!-- Email -->
           <div data-mdb-input-init class="form-outline mb-4">
             <input name="email" type="text" class="form-control form-control-lg"
               placeholder="Địa chỉ email" />
+            <div class="error"><?php echo !empty($errorsArr['email']) ? reset($errorsArr['email']) : false; ?> </div>
+
           </div>
 
           <!-- Phone number -->
           <div data-mdb-input-init class="form-outline mb-4">
             <input name="phone" type="text" class="form-control form-control-lg"
               placeholder="Nhập số điện thoại" />
+            <div class="error"><?php echo !empty($errorsArr['phone']) ? reset($errorsArr['phone']) : false; ?> </div>
+
           </div>
 
 
@@ -111,12 +124,16 @@ if (!empty(isPost())) {
           <div data-mdb-input-init class="form-outline mb-3">
             <input name="password" type="password" id="form3Example4" class="form-control form-control-lg"
               placeholder="Nhập mật khẩu" />
+            <div class="error"><?php echo !empty($errorsArr['password']) ? reset($errorsArr['password']) : false; ?> </div>
+
           </div>
 
           <!-- Nhập lại mật khẩu -->
           <div data-mdb-input-init class="form-outline mb-3">
             <input name="confirm_pass" type="password" id="form3Example4" class="form-control form-control-lg"
               placeholder="Nhập lại mật khẩu" />
+            <div class="error"><?php echo !empty($errorsArr['confirm_pass']) ? reset($errorsArr['confirm_pass']) : false; ?> </div>
+
           </div>
 
 

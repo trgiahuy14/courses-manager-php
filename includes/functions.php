@@ -160,3 +160,16 @@ function isPhone($phone)
     }
     return false;
 }
+
+// Thông báo lỗi
+function getMsg($msg, $type = 'success')
+{
+    echo '<div class="anncouce-message alert alert-' . $type . '">';
+    echo  $msg;
+    echo ' </div>';
+}
+
+function formError($errors, $fieldName)
+{
+    return (!empty($errors[$fieldName])) ? '<div class = "error">' . reset($errors[$fieldName]) . '</div>' : false;
+}

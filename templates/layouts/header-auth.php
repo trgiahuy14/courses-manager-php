@@ -15,7 +15,7 @@ if (!defined('_HIENUE')) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
     <meta name="author" content="ColorlibHQ" />
-    
+
     <!--begin::Fonts-->
     <link
         rel="stylesheet"
@@ -38,11 +38,9 @@ if (!defined('_HIENUE')) {
         crossorigin="anonymous" />
     <!--end::Third Party Plugin(Bootstrap Icons)-->
     <!--begin::Required Plugin(AdminLTE)-->
-    <link rel="stylesheet" href="<?php echo _HOST_URL_TEMPLATES; ?>/assets/css/adminlte.css" />
-    <link rel="stylesheet" href="<?php echo _HOST_URL_TEMPLATES; ?>/assets/css/login.css" />
+    <link rel="stylesheet" href="<?php echo _HOST_URL_TEMPLATES; ?>/assets/css/adminlte.css?ver=<?php rand(); ?>" />
+    <link rel="stylesheet" href="<?php echo _HOST_URL_TEMPLATES; ?>/assets/css/login.css?ver=<?php rand(); ?>" />
     <!--end::Required Plugin(AdminLTE)-->
-   
+
 </head>
 <!--end::Head-->
-
-   

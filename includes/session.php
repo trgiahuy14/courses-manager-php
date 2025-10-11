@@ -1,11 +1,12 @@
 <?php
-if(!defined('_HIENUE')){
+if (!defined('_HIENUE')) {
     die('Truy cập không hợp lệ');
 }
 
 // Set sessions
-function setSession($key, $value){
-    if(!empty(session_id())){
+function setSession($key, $value)
+{
+    if (!empty(session_id())) {
         $_SESSION[$key] = $value;
         return true;
     } else
@@ -13,11 +14,12 @@ function setSession($key, $value){
 }
 
 // Lấy dữ liệu từ Session
-function getSession($key = ''){
-    if(empty($key)){
+function getSession($key = '')
+{
+    if (empty($key)) {
         return $_SESSION;
     } else {
-        if(isset($_SESSION[$key])){
+        if (isset($_SESSION[$key])) {
             return $_SESSION[$key];
         }
     }
@@ -25,12 +27,13 @@ function getSession($key = ''){
 }
 
 // Xóa dữ liệu từ Session
-function removeSession($key = ''){
-    if(empty($key)){
+function removeSession($key = '')
+{
+    if (empty($key)) {
         session_destroy();
         return true;
-    } else{
-        if(isset($key)){
+    } else {
+        if (isset($key)) {
             unset($_SESSION[$key]);
         }
         return true;
@@ -39,19 +42,19 @@ function removeSession($key = ''){
 }
 
 // Tạo session Flash
-function setSessionFlash($key, $value){
-    $key = $key .'Flash';
-    $rel = setSession($key,$value);
+function setSessionFlash($key, $value)
+{
+    $key = $key . 'Flash';
+    $rel = setSession($key, $value);
     return $rel;
 }
 
 // Lấy session Flash
-function getSessionFlash($key){
-    $key = $key .'Flash';
+function getSessionFlash($key)
+{
+    $key = $key . 'Flash';
     $rel = getSession($key);
-
     removeSession($key);
-    
-    return $rel;
 
+    return $rel;
 }
