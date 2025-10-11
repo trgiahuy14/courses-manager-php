@@ -125,8 +125,7 @@ function filterData($method = '')
     return $filterArr;
 }
 
-// Validate Email
-
+// Validate 
 function validateEmail($email)
 {
     if (!empty($email)) {
@@ -141,4 +140,23 @@ function validateInt($number)
         $checkNumber = filter_var($number, FILTER_VALIDATE_INT);
     }
     return $checkNumber;
+}
+
+function isPhone($phone)
+{
+    $phoneFirst = false;
+    if ($phone[0] == '0') {
+        $phoneFirst = true;
+        $phone = substr($phone, 1); // Cắt phần tử đầu để lấy 9 số còn lại
+    }
+
+    $checkPhone = false;
+    if (validateInt($phone)) { // Truyền hàm valid để kiểm tra phải là int không
+        $checkPhone = true;
+    }
+
+    if ($phoneFirst & $checkPhone) {
+        return true;
+    }
+    return false;
 }
