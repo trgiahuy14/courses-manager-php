@@ -171,5 +171,10 @@ function getMsg($msg, $type = 'success')
 
 function formError($errors, $fieldName)
 {
-    return (!empty($errors[$fieldName])) ? '<div class = "error">' . reset($errors[$fieldName]) . '</div>' : false;
+    return (! empty($errors[$fieldName])) ? '<div class = "error">' . reset($errors[$fieldName]) . '</div>' : false;
+}
+
+function oldData($oldData, $fieldName)
+{
+    return ! empty($oldData[$fieldName]) ? $oldData[$fieldName] : null;
 }

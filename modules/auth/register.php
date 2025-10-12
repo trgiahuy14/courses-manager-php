@@ -70,9 +70,11 @@ if (!empty(isPost())) {
   } else {
     $msg = 'Dữ liệu không hợp lệ, hãy kiểm tra lại';
     $msg_type = 'danger';
+
+    setSessionFlash('oldData', $filter);
     setSessionFlash('errors', $errors);
   }
-
+  $oldData = getSessionFlash('oldData');
   $errorsArr = getSessionFlash('errors');
 }
 
@@ -85,9 +87,6 @@ if (!empty(isPost())) {
           class="img-fluid" alt="Sample image">
       </div>
       <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-
-        <?php getMsg($msg, $msg_type) ?>
-
         <form method="POST" action="" enctype="multipart/form-data">
           <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
             <h2 class="fw-normal mb-5 me-3">Đăng ký tài khoản</h2>
@@ -98,14 +97,14 @@ if (!empty(isPost())) {
           <!-- Register form -->
           <!-- Full name -->
           <div data-mdb-input-init class="form-outline mb-4">
-            <input name="fullname" type="Text" class="form-control form-control-lg"
+            <input name="fullname" type="Text" value="<?php echo oldData($oldData, 'fullname')  ?>" class="form-control form-control-lg"
               placeholder="Họ tên" />
             <?php echo formError($errorsArr, 'fullname') ?>
           </div>
 
           <!-- Email -->
           <div data-mdb-input-init class="form-outline mb-4">
-            <input name="email" type="text" class="form-control form-control-lg"
+            <input name="email" type="text" value="<?php echo oldData($oldData, 'email')  ?>" class="form-control form-control-lg"
               placeholder="Địa chỉ email" />
             <div class="error"><?php echo !empty($errorsArr['email']) ? reset($errorsArr['email']) : false; ?> </div>
 
@@ -113,7 +112,7 @@ if (!empty(isPost())) {
 
           <!-- Phone number -->
           <div data-mdb-input-init class="form-outline mb-4">
-            <input name="phone" type="text" class="form-control form-control-lg"
+            <input name="phone" type="text" value="<?php echo oldData($oldData, 'phone')  ?>" class="form-control form-control-lg"
               placeholder="Nhập số điện thoại" />
             <div class="error"><?php echo !empty($errorsArr['phone']) ? reset($errorsArr['phone']) : false; ?> </div>
 
