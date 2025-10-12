@@ -1,5 +1,5 @@
 <?php
-if (!defined('_HIENUE')) {
+if (!defined('_TRGIAHUY')) {
     die('Truy cập không hợp lệ');
 }
 ?>
@@ -37,12 +37,12 @@ if (!defined('_HIENUE')) {
                         <i class="nav-icon bi bi-speedometer"></i>
                         <p>
                             Dashboard
-                         
+
                         </p>
                     </a>
-                    
+
                 </li>
-                
+
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon bi bi-box-seam-fill"></i>
@@ -93,11 +93,11 @@ if (!defined('_HIENUE')) {
                                 <p>Tạo mới tài khoản</p>
                             </a>
                         </li>
-                        
-                        
+
+
                     </ul>
                 </li>
-                
+
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon bi bi-pencil-square"></i>
@@ -115,9 +115,9 @@ if (!defined('_HIENUE')) {
                         </li>
                     </ul>
                 </li>
-               
-                
-            <!--end::Sidebar Menu-->
+
+
+                <!--end::Sidebar Menu-->
         </nav>
     </div>
     <!--end::Sidebar Wrapper-->

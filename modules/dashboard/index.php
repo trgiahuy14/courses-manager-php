@@ -2,16 +2,16 @@
 if (!defined('_HIENUE')) {
     die('Truy cập không hợp lệ');
 }
+$data = ['title' => 'Dashboard'];
 
-require_once './templates/layouts/header.php';
-require_once './templates/layouts/sidebar.php';
-
+layout('header', $data);
+layout('sidebar');
 ?>
 
 <!--begin::App Main-->
 <main class="app-main">
     <?php
-    require_once './templates/layouts/breadcrumb.php'
+    layout('breadcrumb')
     ?>
     <!--end::App Content Header-->
     <!--begin::App Content-->
@@ -139,4 +139,4 @@ require_once './templates/layouts/sidebar.php';
 <!--end::App Main-->
 
 <?php
-require_once './templates/layouts/footer.php';
+layout('footer');

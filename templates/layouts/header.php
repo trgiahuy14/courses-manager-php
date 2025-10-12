@@ -1,5 +1,5 @@
 <?php
-if (!defined('_HIENUE')) {
+if (!defined('_TRGIAHUY')) {
     die('Truy cập không hợp lệ');
 }
 ?>
@@ -10,7 +10,7 @@ if (!defined('_HIENUE')) {
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Courses Manager | Dashboard</title>
+    <title><?php echo $data['title'] ?></title>
     <!--begin::Primary Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
@@ -69,10 +69,10 @@ if (!defined('_HIENUE')) {
         <nav class="app-header navbar navbar-expand bg-body">
             <!--begin::Container-->
             <div class="container-fluid">
-                
+
                 <!--begin::End Navbar Links-->
                 <ul class="navbar-nav ms-auto">
-                    
+
                     <!--begin::Fullscreen Toggle-->
                     <li class="nav-item">
                         <a class="nav-link" href="#" data-lte-toggle="fullscreen">

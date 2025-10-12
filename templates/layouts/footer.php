@@ -1,18 +1,18 @@
 <?php
-if(!defined('_HIENUE')){
+if (!defined('_TRGIAHUY')) {
     die('Truy cập không hợp lệ');
 }
 ?>
 
 <!--begin::Footer-->
 <footer class="app-footer">
-  <div class="float-end d-none d-sm-inline">
-    Hệ thống quản lý khóa học
-  </div>
-  <strong>
-    &copy; <?php echo date('Y'); ?> Courses Manager.
-  </strong>
-  Giao diện được xây dựng dựa trên <a href="https://adminlte.io" class="text-decoration-none">AdminLTE</a>.
+    <div class="float-end d-none d-sm-inline">
+        Hệ thống quản lý khóa học
+    </div>
+    <strong>
+        &copy; <?php echo date('Y'); ?> Courses Manager.
+    </strong>
+    Giao diện được xây dựng dựa trên <a href="https://adminlte.io" class="text-decoration-none">AdminLTE</a>.
 </footer>
 <!--end::Footer-->
 </div>

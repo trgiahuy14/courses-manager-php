@@ -1,5 +1,5 @@
 <?php
-if (!defined('_HIENUE')) {
+if (!defined('_TRGIAHUY')) {
   die('Truy cập không hợp lệ');
 }
 $data = [
@@ -13,7 +13,7 @@ if (!empty(isPost())) {
   $filter = filterData();
   $errors = [];
 
-  // Validate fullname
+  // Validate email
   if (empty(trim($filter['fullname']))) {
     $errors['fullname']['required'] = 'Họ tên bắt buộc phải nhập';
   } else {
@@ -55,7 +55,7 @@ if (!empty(isPost())) {
     }
   }
 
-  // Validate confirm pass
+  // Validate confirm password
   if (empty($filter['confirm_pass'])) {
     $errors['confirm_pass']['required'] = 'Vui lòng nhập lại mật khẩu';
   } else {
@@ -68,7 +68,7 @@ if (!empty(isPost())) {
     $msg = 'Đăng ký thành công';
     $msg_type = 'success';
 
-    $activeToken = sha1(uniqid() . time()); // Tạo mã token
+    $activeToken = sha1(uniqid() . time()); // Tạo mã cho token
 
     $data = [
       'fullname'      => $filter['fullname'],
@@ -77,9 +77,11 @@ if (!empty(isPost())) {
       'password'      => password_hash($filter['password'], PASSWORD_DEFAULT),
       'email'         => $filter['email'],
       'active_token'  => $activeToken,
-      'group_id'      => 1,
+      'group_id'      => 1,   // Mặc định cho tài khoản mới là student
       'created_at'    => date('Y:m:d H:i:s')
     ];
+
+    $insertStatus = insert('users', $data);
 
     // For debug
     // try {
@@ -91,8 +93,8 @@ if (!empty(isPost())) {
     // }
 
 
-    $insertStatus = insert('users', $data);
     if ($insertStatus) {
+
       // Send active email
       $emailTo = $filter['email'];
       $subject = 'Kích hoạt tài khoản Courses Manager by TrGiaHuy';
@@ -136,7 +138,11 @@ if (!empty(isPost())) {
       </div>
       <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
 
-        <?php getMsg($msg, $msg_type) ?>
+        <?php
+        if (!empty($msg) && !empty($msg_type)) {
+          getMsg($msg, $msg_type);
+        }
+        ?>
 
         <form method="POST" action="" enctype="multipart/form-data">
           <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
@@ -148,25 +154,40 @@ if (!empty(isPost())) {
           <!-- Register form -->
           <!-- Full name -->
           <div data-mdb-input-init class="form-outline mb-4">
-            <input name="fullname" type="Text" value="<?php echo oldData($oldData, 'fullname')  ?>" class="form-control form-control-lg"
+            <input name="fullname" type="Text" value="<?php
+                                                      if (!empty($oldData)) {
+                                                        echo oldData($oldData, 'fullname');
+                                                      }  ?>" class="form-control form-control-lg"
               placeholder="Họ tên" />
-            <?php echo formError($errorsArr, 'fullname') ?>
+            <?php
+            if (!empty($errorsArr)) {
+              echo formError($errorsArr, 'fullname');
+            } ?>
           </div>
 
           <!-- Email -->
           <div data-mdb-input-init class="form-outline mb-4">
-            <input name="email" type="text" value="<?php echo oldData($oldData, 'email')  ?>" class="form-control form-control-lg"
+            <input name="email" type="text" value="<?php
+                                                    if (!empty($oldData)) {
+                                                      echo oldData($oldData, 'email');
+                                                    }  ?>" class="form-control form-control-lg"
               placeholder="Địa chỉ email" />
-            <div class="error"><?php echo !empty($errorsArr['email']) ? reset($errorsArr['email']) : false; ?> </div>
-
+            <?php if (!empty($errorsArr)) {
+              echo formError($errorsArr, 'email');
+            } ?>
           </div>
 
           <!-- Phone number -->
           <div data-mdb-input-init class="form-outline mb-4">
-            <input name="phone" type="text" value="<?php echo oldData($oldData, 'phone')  ?>" class="form-control form-control-lg"
+            <input name="phone" type="text" value="<?php
+                                                    if (!empty($oldData)) {
+                                                      echo oldData($oldData, 'phone');
+                                                    }  ?>" class="form-control form-control-lg"
               placeholder="Nhập số điện thoại" />
-            <div class="error"><?php echo !empty($errorsArr['phone']) ? reset($errorsArr['phone']) : false; ?> </div>
-
+            <?php
+            if (!empty($errorsArr)) {
+              echo formError($errorsArr, 'phone');
+            } ?>
           </div>
 
 
@@ -174,16 +195,20 @@ if (!empty(isPost())) {
           <div data-mdb-input-init class="form-outline mb-3">
             <input name="password" type="password" id="form3Example4" class="form-control form-control-lg"
               placeholder="Nhập mật khẩu" />
-            <div class="error"><?php echo !empty($errorsArr['password']) ? reset($errorsArr['password']) : false; ?> </div>
-
+            <?php
+            if (!empty($errorsArr)) {
+              echo formError($errorsArr, 'password');
+            } ?>
           </div>
 
           <!-- Nhập lại mật khẩu -->
           <div data-mdb-input-init class="form-outline mb-3">
             <input name="confirm_pass" type="password" id="form3Example4" class="form-control form-control-lg"
               placeholder="Nhập lại mật khẩu" />
-            <div class="error"><?php echo !empty($errorsArr['confirm_pass']) ? reset($errorsArr['confirm_pass']) : false; ?> </div>
-
+            <?php
+            if (!empty($errorsArr)) {
+              echo formError($errorsArr, 'confirm_pass');
+            } ?>
           </div>
 
 

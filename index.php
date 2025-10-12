@@ -21,6 +21,11 @@ require_once './includes/mailer/SMTP.php';
 
 require_once './includes/functions.php';
 
+// $data = [
+//     'fullname' => 'Tran Gia Huy 2',
+//     'phone' => '0901438544'
+// ];
+// insert('users', $data);
 
 // Mặc định là module dashboard, action là file index.php (chỉnh trong config.php)
 $module = _MODULES;

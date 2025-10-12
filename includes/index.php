@@ -1,5 +1,4 @@
 <?php
-if(!defined('_HIENUE')){
+if (!defined('_TRGIAHUY')) {
     die('Truy cập không hợp lệ');
 }
-

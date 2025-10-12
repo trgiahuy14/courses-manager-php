@@ -1,10 +1,10 @@
 <?php
-if(!defined('_HIENUE')){
-    die('Truy cập không hợp lệ');
+if (!defined('_TRGIAHUY')) {
+  die('Truy cập không hợp lệ');
 }
 
 $data = [
-    'title' => 'Quên mật khẩu'
+  'title' => 'Quên mật khẩu'
 ];
 layout('header-auth', $data);
 ?>
@@ -20,7 +20,7 @@ layout('header-auth', $data);
         <form>
           <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
             <h2 class="fw-normal mb-5 me-3">Quên mật khẩu</h2>
-            
+
           </div>
 
           <!-- Email input -->
@@ -30,9 +30,9 @@ layout('header-auth', $data);
           </div>
 
           <div class="text-center text-lg-start mt-4 pt-2">
-            <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
+            <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
               style="padding-left: 2.5rem; padding-right: 2.5rem;">Gửi</button>
-            
+
           </div>
 
         </form>
@@ -40,7 +40,7 @@ layout('header-auth', $data);
     </div>
   </div>
 
-  
+
 </section>
 
 <?php
