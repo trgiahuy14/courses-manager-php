@@ -93,19 +93,35 @@ if (!empty(isPost())) {
 
     $insertStatus = insert('users', $data);
     if ($insertStatus) {
-      $msg = 'Đăng ký thành công';
-      $msg_type = 'success';
+      // Send active email
+      $emailTo = $filter['email'];
+      $subject = 'Kích hoạt tài khoản Courses Manager by TrGiaHuy';
+      $content =  'Xin chào ' . $filter['fullname'] .  ",</>";
+      $content .= 'Để hoàn tất việc đăng ký tài khoản, hãy click vào đường link bên dưới: </br>';
+      $content .= _HOST_URL . '/?module=auth&action=active&token=' . $activeToken . '</br>';
+      $content .= 'Trân trọng, </br>';
+      $content .= 'Gia Huy</br>';
+
+      sendMail($emailTo, $subject, $content);
+
+      setSessionFlash('msg', 'Đăng ký thành công, vui lòng kích hoạt tài khoản.');
+      setSessionFlash('msg_type', 'success');
     } else {
-      $msg = 'Đăng ký không thành công';
-      $msg_type = 'danger';
+      setSessionFlash('msg', 'Đăng ký không thành công, vui lòng thử lại sau.');
+      setSessionFlash('msg_type', 'danger');
     }
   } else {
-    $msg = 'Dữ liệu không hợp lệ, hãy kiểm tra lại';
-    $msg_type = 'danger';
+    // $msg = 'Dữ liệu không hợp lệ, hãy kiểm tra lại';
+    // $msg_type = 'danger';
+    setSessionFlash('msg', 'Vui lòng kiểm tra lại dữ liệu nhập vào');
+    setSessionFlash('msg_type', 'danger');
 
     setSessionFlash('oldData', $filter);
     setSessionFlash('errors', $errors);
   }
+
+  $msg = getSessionFlash('msg');
+  $msg_type = getSessionFlash('msg_type');
   $oldData = getSessionFlash('oldData');
   $errorsArr = getSessionFlash('errors');
 }
