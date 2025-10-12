@@ -67,6 +67,38 @@ if (!empty(isPost())) {
   if (empty($errors)) {
     $msg = 'Đăng ký thành công';
     $msg_type = 'success';
+
+    $activeToken = sha1(uniqid() . time()); // Tạo mã token
+
+    $data = [
+      'fullname'      => $filter['fullname'],
+      'address'       => $filter['address'],
+      'phone'         => $filter['phone'],
+      'password'      => password_hash($filter['password'], PASSWORD_DEFAULT),
+      'email'         => $filter['email'],
+      'active_token'  => $activeToken,
+      'group_id'      => 1,
+      'created_at'    => date('Y:m:d H:i:s')
+    ];
+
+    // For debug
+    // try {
+    //   $insertStatus = insert('users', $data);
+    // } catch (Throwable $e) {
+    //   echo '<pre>SQL ERROR: ' . $e->getMessage() . '</pre>';
+    //   // nếu cần: echo $e->getTraceAsString();
+    //   exit;
+    // }
+
+
+    $insertStatus = insert('users', $data);
+    if ($insertStatus) {
+      $msg = 'Đăng ký thành công';
+      $msg_type = 'success';
+    } else {
+      $msg = 'Đăng ký không thành công';
+      $msg_type = 'danger';
+    }
   } else {
     $msg = 'Dữ liệu không hợp lệ, hãy kiểm tra lại';
     $msg_type = 'danger';
@@ -87,6 +119,9 @@ if (!empty(isPost())) {
           class="img-fluid" alt="Sample image">
       </div>
       <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+
+        <?php getMsg($msg, $msg_type) ?>
+
         <form method="POST" action="" enctype="multipart/form-data">
           <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
             <h2 class="fw-normal mb-5 me-3">Đăng ký tài khoản</h2>

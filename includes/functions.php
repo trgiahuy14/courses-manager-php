@@ -10,7 +10,7 @@ function layout($layoutName, $data = [])
     }
 }
 
-// Hàm gửi mail
+// Send mail
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
@@ -58,7 +58,7 @@ function isPost()
     return false;
 }
 
-// Kiểm tra phương thức POST
+// Kiểm tra phương thức GET
 function isGet()
 {
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
@@ -67,7 +67,7 @@ function isGet()
     return false;
 }
 
-// Hàm lọc dữ liệu
+// Validate dữ liệu
 function filterData($method = '')
 {
     $filterArr = [];
@@ -161,7 +161,7 @@ function isPhone($phone)
     return false;
 }
 
-// Thông báo lỗi
+// Thông báo success/errors
 function getMsg($msg, $type = 'success')
 {
     echo '<div class="anncouce-message alert alert-' . $type . '">';
