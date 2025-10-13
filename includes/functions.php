@@ -178,3 +178,17 @@ function oldData($oldData, $fieldName)
 {
     return ! empty($oldData[$fieldName]) ? $oldData[$fieldName] : null;
 }
+
+
+// Hàm chuyển hướng
+function redirect($path, $pathFull = false)
+{
+    if ($pathFull) {
+        header("Location: $path");
+        exit();
+    } else {
+        $url = _HOST_URL . $path;
+        header("Location: $url");
+        exit();
+    }
+}
