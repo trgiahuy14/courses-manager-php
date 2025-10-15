@@ -42,7 +42,11 @@ if (!empty(isPost())) {
       if (!empty($password)) {
         $checkStatus = password_verify($password, $checkEmail['password']);
         if ($checkStatus) {
+          // Tạo token và insert vào table token_login
           $token = sha1(uniqid() . time());
+
+          // Gán token lên session
+          setSessionFlash('token_login', $token);
           $data = [
             'token' => $token,
             'created_at' => date('Y:m:d H:i:s'),

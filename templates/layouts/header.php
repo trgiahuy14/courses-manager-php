@@ -2,6 +2,11 @@
 if (!defined('_TRGIAHUY')) {
     die('Truy cập không hợp lệ');
 }
+
+// Kiểm tra đăng nhập
+if (!isLogin()) {
+    redirect('?module=auth&action=login');
+}
 ?>
 
 <!doctype html>

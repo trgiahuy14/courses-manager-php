@@ -192,3 +192,17 @@ function redirect($path, $pathFull = false)
         exit();
     }
 }
+
+// Hàm check login
+function isLogin()
+{
+    $checkLogin = false;
+    $tokenLogin = getSessionFlash('token_login');
+    $checkToken = getOne("SELECT * FROM token_login WHERE token = '$tokenLogin'");
+    if (!empty($checkToken)) {
+        $checkLogin = true;
+    } else {
+        removeSession('token_login');
+    }
+    return $checkLogin;
+}
