@@ -2,14 +2,11 @@
 if (!defined('_TRGIAHUY')) {
   die('Truy cập không hợp lệ');
 }
-
-$data = [
-  'title' => 'Đăng nhập hệ thống'
-];
+$data = ['title' => 'Đăng nhập hệ thống'];
 layout('header-auth', $data);
 
 
-if (!empty(isPost())) {
+if (isPost()) {
   $filter = filterData();
   $errors = [];
   // Validate Email
@@ -54,7 +51,7 @@ if (!empty(isPost())) {
             $token = sha1(uniqid() . time());
 
             // Gán token lên session
-            setSessionFlash('token_login', $token);
+            setSession('token_login', $token);
             $data = [
               'token' => $token,
               'created_at' => date('Y:m:d H:i:s'),
@@ -62,8 +59,6 @@ if (!empty(isPost())) {
             ];
             $insertToken = insert('token_login', $data);
             if ($insertToken) {
-              setSessionFlash('msg', 'Đăng nhập thành công');
-              setSessionFlash('msg_type', 'success');
 
               // Điều hướng
               redirect('/');
