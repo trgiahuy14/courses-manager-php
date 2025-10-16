@@ -33,7 +33,7 @@ function sendMail($emailTo, $subject, $content)
         $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
         //Recipients
-        $mail->setFrom(getenv('MAIL_USER'), 'Admin');
+        $mail->setFrom(getenv('MAIL_USER'), 'Courses Manager');
         $mail->addAddress($emailTo);     //Add a recipient
 
 
