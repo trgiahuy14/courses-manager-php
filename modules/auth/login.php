@@ -42,26 +42,35 @@ if (!empty(isPost())) {
       if (!empty($password)) {
         $checkStatus = password_verify($password, $checkEmail['password']);
         if ($checkStatus) {
-          // Tạo token và insert vào table token_login
-          $token = sha1(uniqid() . time());
-
-          // Gán token lên session
-          setSessionFlash('token_login', $token);
-          $data = [
-            'token' => $token,
-            'created_at' => date('Y:m:d H:i:s'),
-            'user_id' => $checkEmail['id'],
-          ];
-          $insertToken = insert('token_login', $data);
-          if ($insertToken) {
-            setSessionFlash('msg', 'Đăng nhập thành công');
-            setSessionFlash('msg_type', 'success');
-
-            // Điều hướng
-            redirect('/');
-          } else {
-            setSessionFlash('msg', 'Đăng nhập không thành công');
+          // Prevent multiple login
+          $user_id = $checkEmail['id'];
+          $checkAlready = getRows("SELECT * FROM token_login WHERE user_id = '$user_id'");
+          if ($checkAlready > 0) {
+            setSessionFlash('msg', 'Tài khoản đang được đăng nhập ở một nơi khác');
             setSessionFlash('msg_type', 'danger');
+            redirect('?module=auth&action=login');
+          } else {
+            // Tạo token và insert vào table token_login
+            $token = sha1(uniqid() . time());
+
+            // Gán token lên session
+            setSessionFlash('token_login', $token);
+            $data = [
+              'token' => $token,
+              'created_at' => date('Y:m:d H:i:s'),
+              'user_id' => $checkEmail['id'],
+            ];
+            $insertToken = insert('token_login', $data);
+            if ($insertToken) {
+              setSessionFlash('msg', 'Đăng nhập thành công');
+              setSessionFlash('msg_type', 'success');
+
+              // Điều hướng
+              redirect('/');
+            } else {
+              setSessionFlash('msg', 'Đăng nhập không thành công');
+              setSessionFlash('msg_type', 'danger');
+            }
           }
         } else {
           setSessionFlash('msg', 'Vui lòng kiểm tra lại dữ liệu nhập vào');
