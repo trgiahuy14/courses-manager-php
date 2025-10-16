@@ -60,25 +60,46 @@ if (!empty($tokenReset)) {
           $content .= '  <div style="max-width:600px; margin:auto; background:#ffffff; border-radius:10px;';
           $content .= '              padding:28px; box-shadow:0 2px 8px rgba(0,0,0,0.05); border:1px solid #e5e7eb;">';
 
-          $content .= '    <h2 style="text-align:center; color:#2563eb; margin-bottom:20px;">Đổi mật khẩu thành công</h2>';
-          $content .= '    <p style="color:#374151;">Xin chào <b>' . $checkToken['fullname'] . '</b>,</p>';
-          $content .= '    <p style="color:#374151;">Mật khẩu tài khoản của bạn trên hệ thống <b>Courses Manager</b> đã được thay đổi thành công.</p>';
-          $content .= '    <p style="color:#374151;">Nếu bạn không thực hiện thay đổi này, vui lòng đặt lại mật khẩu ngay bằng cách chọn “Quên mật khẩu” tại trang đăng nhập để đảm bảo an toàn tài khoản.</p>';
+          $content .= '    <h2 style="text-align:center; color:#2563eb !important; margin-bottom:20px;">Đổi mật khẩu thành công</h2>';
 
-          $content .= '    <div style="text-align:center; margin:30px 0;">';
-          $content .= '      <a href="' . _HOST_URL . '/?module=auth&action=login" style="background-color:#2563eb; color:#fff; text-decoration:none;';
-          $content .= '         padding:12px 24px; border-radius:8px; font-weight:bold; display:inline-block;">Đăng nhập ngay</a>';
-          $content .= '    </div>';
+          $content .= '    <p style="color:#374151 !important; margin:0 0 12px;">';
+          $content .= '      Xin chào <span style="color:#374151 !important;"><b>' . $checkToken['fullname'] . '</b></span>,';
+          $content .= '    </p>';
 
-          $content .= '    <p style="color:#374151;">Cảm ơn bạn đã sử dụng hệ thống <b>Courses Manager</b>.</p>';
-          $content .= '    <br><p>Trân trọng,</p>';
-          $content .= '    <p><b>Đội ngũ Courses Manager</b></p>';
+          $content .= '    <p style="color:#374151 !important; margin:0 0 12px;">';
+          $content .= '      Mật khẩu tài khoản của bạn trên hệ thống <span style="color:#374151 !important;"><b>Courses Manager</b></span> đã được thay đổi thành công.';
+          $content .= '    </p>';
+
+          $content .= '    <p style="color:#374151 !important; margin:0 0 24px;">';
+          $content .= '      Nếu bạn không thực hiện thay đổi này, vui lòng đặt lại mật khẩu ngay bằng cách chọn “Quên mật khẩu” tại trang đăng nhập để đảm bảo an toàn tài khoản.';
+          $content .= '    </p>';
+
+          # Bulletproof button (ngăn việc client đổi màu)
+          $content .= '    <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" style="margin:30px auto;">';
+          $content .= '      <tr>';
+          $content .= '        <td bgcolor="#2563eb" style="border-radius:8px;">';
+          $content .= '          <a href="' . _HOST_URL . '/?module=auth&action=login"';
+          $content .= '             style="display:inline-block; padding:12px 24px; border-radius:8px; ';
+          $content .= '                    background:#2563eb !important; border:1px solid #2563eb !important; ';
+          $content .= '                    color:#ffffff !important; text-decoration:none !important; font-weight:700;">';
+          $content .= '            <span style="color:#ffffff !important; text-decoration:none !important;">Đăng nhập ngay</span>';
+          $content .= '          </a>';
+          $content .= '        </td>';
+          $content .= '      </tr>';
+          $content .= '    </table>';
+
+          $content .= '    <p style="color:#374151 !important; margin:0 0 12px;">Cảm ơn bạn đã sử dụng hệ thống <span style="color:#374151 !important;"><b>Courses Manager</b></span>.</p>';
+          $content .= '    <br>';
+          $content .= '    <p style="color:#374151 !important; margin:0 0 4px;">Trân trọng,</p>';
+          $content .= '    <p style="color:#374151 !important; margin:0;"><b>Đội ngũ Courses Manager</b></p>';
+
           $content .= '  </div>';
 
-          $content .= '  <div style="text-align:center; color:#6b7280; font-size:12px; margin-top:18px;">';
-          $content .= '    <p style="margin:0;">Email này được gửi tự động, vui lòng không trả lời.</p>';
+          $content .= '  <div style="text-align:center; color:#6b7280 !important; font-size:12px; margin-top:18px;">';
+          $content .= '    <p style="margin:0; color:#6b7280 !important;">Email này được gửi tự động, vui lòng không trả lời.</p>';
           $content .= '  </div>';
           $content .= '</div>';
+
 
           // Gửi mail
           sendMail($emailTo, $subject, $content);
@@ -152,6 +173,8 @@ $errorsArr = getSessionFlash('errors');
           <div class="text-center text-lg-start mt-4 pt-2">
             <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
               style="padding-left: 2.5rem; padding-right: 2.5rem;">Gửi</button>
+            <p class="small fw-bold mt-2 pt-1 mb-0">Quay về trang <a href="<?php echo _HOST_URL ?>?module=auth&action=login"
+                class="link-danger">Đăng nhập</a></p>
           </div>
 
         </form>
