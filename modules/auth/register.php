@@ -13,7 +13,7 @@ if (!empty(isPost())) {
   $filter = filterData();
   $errors = [];
 
-  // Validate email
+  // Validate Fullname
   if (empty(trim($filter['fullname']))) {
     $errors['fullname']['required'] = 'Họ tên bắt buộc phải nhập';
   } else {
@@ -97,24 +97,44 @@ if (!empty(isPost())) {
 
       // Send active email
       $emailTo = $filter['email'];
-      $subject = 'Kích hoạt tài khoản Courses Manager by TrGiaHuy';
-      $content =  'Xin chào ' . $filter['fullname'] .  ",</>";
-      $content .= 'Để hoàn tất việc đăng ký tài khoản, hãy click vào đường link bên dưới: </br>';
-      $content .= _HOST_URL . '/?module=auth&action=active&token=' . $activeToken . '</br>';
-      $content .= 'Trân trọng, </br>';
-      $content .= 'Gia Huy</br>';
+      $subject = 'Kích hoạt tài khoản – Courses Manager';
+      $activeLink = _HOST_URL . '/?module=auth&action=active&token=' . $activeToken;
+
+      $content  = '<div style="font-family: Arial, sans-serif; background:#f6f9fc; padding:24px;">';
+      $content .= '  <div style="max-width:600px; margin:auto; background:#ffffff; border-radius:10px; ';
+      $content .= '              padding:28px; box-shadow:0 2px 8px rgba(0,0,0,0.05); border:1px solid #e5e7eb;">';
+
+      $content .= '    <h2 style="text-align:center; color:#2563eb; margin-bottom:20px;">Kích hoạt tài khoản Courses Manager</h2>';
+      $content .= '    <p style="color:#374151;">Xin chào <b>' . $filter['fullname'] . '</b>,</p>';
+      $content .= '    <p style="color:#374151;">Cảm ơn bạn đã đăng ký tài khoản trên hệ thống <b>Courses Manager</b>.</p>';
+      $content .= '    <p style="color:#374151;">Để hoàn tất việc đăng ký, vui lòng nhấn vào nút bên dưới để kích hoạt tài khoản của bạn:</p>';
+
+      $content .= '    <div style="text-align:center; margin:30px 0;">';
+      $content .= '      <a href="' . $activeLink . '" style="background-color:#2563eb; color:#fff; text-decoration:none; ';
+      $content .= '         padding:12px 24px; border-radius:8px; font-weight:bold; display:inline-block;">Kích hoạt tài khoản</a>';
+      $content .= '    </div>';
+
+      $content .= '    <p style="color:#374151;">Nếu bạn không thực hiện đăng ký này, vui lòng bỏ qua email này. ';
+      $content .= 'Liên kết sẽ tự động hết hạn sau một khoảng thời gian ngắn để đảm bảo an toàn.</p>';
+
+      $content .= '    <br><p>Trân trọng,</p>';
+      $content .= '    <p><b>Đội ngũ Courses Manager</b></p>';
+      $content .= '  </div>';
+
+      $content .= '  <div style="text-align:center; color:#6b7280; font-size:12px; margin-top:18px;">';
+      $content .= '    <p style="margin:0;">Email này được gửi tự động, vui lòng không trả lời.</p>';
+      $content .= '  </div>';
+      $content .= '</div>';
 
       sendMail($emailTo, $subject, $content);
 
-      setSessionFlash('msg', 'Đăng ký thành công, vui lòng kích hoạt tài khoản.');
+      setSessionFlash('msg', 'Đăng ký thành công, vui lòng kiểm tra email để kích hoạt tài khoản.');
       setSessionFlash('msg_type', 'success');
     } else {
       setSessionFlash('msg', 'Đăng ký không thành công, vui lòng thử lại sau.');
       setSessionFlash('msg_type', 'danger');
     }
   } else {
-    // $msg = 'Dữ liệu không hợp lệ, hãy kiểm tra lại';
-    // $msg_type = 'danger';
     setSessionFlash('msg', 'Vui lòng kiểm tra lại dữ liệu nhập vào');
     setSessionFlash('msg_type', 'danger');
 
@@ -147,9 +167,7 @@ if (!empty(isPost())) {
         <form method="POST" action="" enctype="multipart/form-data">
           <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
             <h2 class="fw-normal mb-5 me-3">Đăng ký tài khoản</h2>
-
           </div>
-
 
           <!-- Register form -->
           <!-- Full name -->
@@ -201,7 +219,7 @@ if (!empty(isPost())) {
             } ?>
           </div>
 
-          <!-- Nhập lại mật khẩu -->
+          <!-- Confirm password -->
           <div data-mdb-input-init class="form-outline mb-3">
             <input name="confirm_pass" type="password" id="form3Example4" class="form-control form-control-lg"
               placeholder="Nhập lại mật khẩu" />
@@ -210,8 +228,6 @@ if (!empty(isPost())) {
               echo formError($errorsArr, 'confirm_pass');
             } ?>
           </div>
-
-
 
           <div class="text-center text-lg-start mt-4 pt-2">
             <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
