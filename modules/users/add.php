@@ -48,13 +48,13 @@ if (isPost()) {
     if (empty($filter['password'])) {
         $errors['password']['required'] = 'Mật khẩu bắt buộc phải nhập';
     } else {
-        if (strlen(trim($filter['password']) < 6)) {
+        if (strlen(trim($filter['password'])) < 6) {
             $errors['password']['length'] = 'Mật khẩu phải dài hơn 6 ký tự';
         }
     }
 
     if (empty($errors)) {
-        $data = [
+        $dataInsert = [
             'fullname' => $filter['fullname'],
             'email' => $filter['email'],
             'phone' => $filter['phone'],
@@ -65,7 +65,9 @@ if (isPost()) {
             'address' => (!empty($filter['address']) ? $filter['address'] : null),
             'created_at' => date('Y:m:d H:i:s')
         ];
-        $insertStatus = insert('users', $data);
+
+        $insertStatus = insert('users', $dataInsert);
+
         if ($insertStatus) {
             setSessionFlash('msg', 'Thêm người dùng thành công.');
             setSessionFlash('msg_type', 'success');
@@ -157,7 +159,7 @@ if (isPost()) {
             <!-- Address -->
             <div class="col-6 pb-3">
                 <label for="address">Địa chỉ</label>
-                <input id="address" type="text" class="form-control" placeholder="Địa chỉ">
+                <input id="address" name="address" type="text" class="form-control" placeholder="Địa chỉ">
             </div>
 
             <!-- Group -->
