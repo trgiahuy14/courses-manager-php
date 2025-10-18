@@ -2,19 +2,55 @@
 if (!defined('_TRGIAHUY')) {
     die('Truy cập không hợp lệ');
 }
-$data = [
-    'title' => 'Danh sách người dùng'
-];
+$data = ['title' => 'Danh sách người dùng'];
 layout('header', $data);
 layout('sidebar');
+
+// Get data from GET
+$filter = filterData();
+$chuoiWhere = '';
+$group = '0';
+$keyword = '';
+
+if (isGet()) {
+    if (isset($filter['keyword'])) {
+        $keyword = $filter['keyword'];
+    }
+    if (isset($filter['group'])) {
+        $group = $filter['group'];
+    }
+
+    if (!empty($keyword)) {
+        if (strpos($chuoiWhere, 'WHERE') === false) { //  Phải so sánh chặt (===) vì strpos trả về vị trí đầu tiên 
+            $chuoiWhere .= ' WHERE ';                  //    tìm thấy chữ Where, tức là vị trí 0, mà 0 thì là false trong PHP
+        } else {
+            $chuoiWhere .= ' AND ';
+        }
+        $chuoiWhere .= "fullname LIKE '%$keyword%' OR email LIKE '%$keyword%'";
+    }
+    if (!empty($group)) {
+        if (strpos($chuoiWhere, 'WHERE') === false) {
+            $chuoiWhere .= ' WHERE ';
+        } else {
+            $chuoiWhere .= ' AND ';
+        }
+
+        $chuoiWhere .= " group_id = $group";
+    }
+}
+
 
 // Get data from users table
 $getDetailUser = getAll("SELECT a.id, a.fullname, a.email, a.created_at, b.name
 FROM users a
 INNER JOIN `groups` b
-ON a.group_id = b.id
+ON a.group_id = b.id $chuoiWhere
 ORDER BY a.created_at DESC
  ");
+
+
+// Nhóm phân loại
+$getGroup = getAll("SELECT * FROM `groups`");
 
 
 ?>
@@ -22,15 +58,25 @@ ORDER BY a.created_at DESC
     <div class="container-fluid">
         <a href="?module=users&action=add" class="btn btn-success mb-3"><i class="fa-solid fa-plus"></i>Thêm mới người dùng</a>
         <form class="mb-3" action=" " method="get">
+            <input type="hidden" name="module" value="users">
+            <input type="hidden" name="action" value="list">
             <div class="row">
                 <div class="col-3">
-                    <select class="form-select form-control" name="" id="">
+                    <select class="form-select form-control" name="group" id="">
                         <option value="">Nhóm người dùng</option>
-                        <option value="">1</option>
+                        <?php
+                        foreach ($getGroup as $item):
+                        ?>
+
+                            <option value="<?php echo $item['id']; ?>" <?php echo ($group == $item['id']) ? 'selected' : false; ?>><?php echo $item['name'] ?></option>
+
+                        <?php endforeach; ?>
+
                     </select>
                 </div>
                 <div class="col-7">
-                    <input class="form-control" type="text" placeholder="Nhập thông tin tìm kiếm...">
+                    <input class="form-control" type="text" value="<?php echo (!empty($keyword)) ? $keyword : false ?>"
+                        name="keyword" placeholder="Nhập thông tin tìm kiếm...">
                 </div>
 
                 <div class="col-2"><button class="btn btn-primary" type="submit">Tìm kiếm</button></div>
