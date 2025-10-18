@@ -50,7 +50,7 @@ if (!empty(isPost())) {
   if (empty($filter['password'])) {
     $errors['password']['required'] = 'Mật khẩu bắt buộc phải nhập';
   } else {
-    if (strlen(trim($filter['password']) < 6)) {
+    if (strlen(trim($filter['password'])) < 6) {
       $errors['password']['length'] = 'Mật khẩu phải dài hơn 6 ký tự';
     }
   }
