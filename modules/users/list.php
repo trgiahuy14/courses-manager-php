@@ -39,6 +39,26 @@ if (isGet()) {
     }
 }
 
+// Pagination
+$maxData = getRows("SELECT id FROM users"); // Total of data
+$perPage = 3; // Row per page 
+$maxPage = ceil($maxData / $perPage); // Calculate max page, ceil giúp làm tròn lên
+$offset = 0;
+$page = 1;
+
+// Get page
+if (isset($filter['page'])) {
+    $page = $filter['page'];
+}
+
+// Over max page or page 0
+if ($page > $maxPage || $page < 1) {
+    $page = 1;
+}
+
+$offset =  ($page - 1) * $perPage;
+
+
 
 // Get data from users table
 $getDetailUser = getAll("SELECT a.id, a.fullname, a.email, a.created_at, b.name
@@ -46,6 +66,7 @@ FROM users a
 INNER JOIN `groups` b
 ON a.group_id = b.id $chuoiWhere
 ORDER BY a.created_at DESC
+LIMIT $offset, $perPage
  ");
 
 
@@ -115,11 +136,44 @@ $getGroup = getAll("SELECT * FROM `groups`");
         <!-- Pagination -->
         <nav aria-label="Page navigation example">
             <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+
+                <!--  Xử lý nút Trước -->
+                <?php if ($page > 1): ?>
+                    <li class="page-item"><a class="page-link" href="?module=users&action=list&page=<?php echo $page - 1 ?>">Trước</a></li>
+                <?php endif; ?>
+
+                <!--  Xử lý nút ... trước -->
+                <?php
+                $start = $page - 1; // Tính vị trí bắt đầu 
+                if ($start < 1) {
+                    $start = 1;
+                }
+                ?>
+                <?php if ($start > 1): ?>
+                    <li class="page-item"><a class="page-link" href="?module=users&action=list&page=<?php echo $page - 1 ?>">...</a></li>
+                <?php endif;
+                $end = $page + 1;
+                if ($end > $maxPage) {
+                    $end = $maxPage;
+                }
+                ?>
+
+                <!-- Hiện số trang -->
+                <?php for ($i = $start; $i <= $end; $i++): ?>
+                    <li class="page-item <?php echo ($page == $i) ? 'active' : false;  ?>"><a class="page-link"
+                            href="?module=users&action=list&page=<?php echo $i ?>"><?php echo $i; ?></a></li>
+                <?php endfor; ?>
+
+                <!--  Xử lý nút ... sau -->
+                <?php if ($end < $maxPage): ?>
+                    <li class="page-item"><a class="page-link" href="?module=users&action=list&page=<?php echo $page + 1 ?>">...</a></li>
+                <?php endif;
+                ?>
+
+                <!-- Xử lý nút sau -->
+                <?php if ($page < $maxPage): ?>
+                    <li class="page-item"><a class="page-link" href="?module=users&action=list&page=<?php echo $page + 1 ?>">Sau</a></li>
+                <?php endif; ?>
             </ul>
         </nav>
     </div>
