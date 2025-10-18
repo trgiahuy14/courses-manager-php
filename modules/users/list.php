@@ -82,11 +82,20 @@ if ($group > 0 || !empty($keyword)) {
     $maxData2 = getRows("SELECT id FROM users a $chuoiWhere");
     $maxPage = ceil($maxData2 / $perPage);
 }
+
+$msg = getSessionFlash('msg');
+$msg_type = getSessionFlash('msg_type');
+
 ?>
 
 <div class="container grid-user">
     <div class="container-fluid">
         <a href="?module=users&action=add" class="btn btn-success mb-3"><i class="fa-solid fa-plus"></i>Thêm mới người dùng</a>
+        <?php
+        if (!empty($msg) && !empty($msg_type)) {
+            getMsg($msg, $msg_type);
+        }
+        ?>
         <form class="mb-3" action=" " method="get">
             <input type="hidden" name="module" value="users">
             <input type="hidden" name="action" value="list">
