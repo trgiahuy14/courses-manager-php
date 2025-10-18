@@ -7,6 +7,16 @@ $data = [
 ];
 layout('header', $data);
 layout('sidebar');
+
+// Get data from users table
+$getDetailUser = getAll("SELECT a.id, a.fullname, a.email, a.created_at, b.name
+FROM users a
+INNER JOIN `groups` b
+ON a.group_id = b.id
+ORDER BY a.created_at DESC
+ ");
+
+
 ?>
 <div class="container grid-user">
     <div class="container-fluid">
@@ -41,16 +51,18 @@ layout('sidebar');
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                    <td></td>
-                    <td><a href="#" class="btn btn-primary">Phân quyền</a></td>
-                    <td><a href="#" class="btn btn-warning"><i class="fa-solid fa-pencil"></i></a></td>
-                    <td><a href="#" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a></td>
-                </tr>
+                <?php foreach ($getDetailUser as $key => $item): ?>
+                    <tr>
+                        <th scope="row"><?php echo $key + 1 ?></th>
+                        <td><?php echo $item['fullname']; ?></td>
+                        <td><?php echo $item['email']; ?></td>
+                        <td><?php echo $item['created_at']; ?></td>
+                        <td><?php echo $item['name']; ?></td>
+                        <td><a href="?module=users&action=permission&id=<?php echo $item['id']; ?>" class="btn btn-primary">Phân quyền</a></td>
+                        <td><a href="?module=users&action=edit&id=<?php echo $item['id']; ?>" class="btn btn-warning"><i class="fa-solid fa-pencil"></i></a></td>
+                        <td><a href="?module=users&action=delete&id=<?php echo $item['id']; ?>" onclick="return confirm('Bạn có chắc chắn muốn xóa không')" class=" btn btn-danger"><i class="fa-solid fa-trash"></i></a></td>
+                    </tr>
+                <?php endforeach; ?>
             </tbody>
         </table>
 
