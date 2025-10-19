@@ -116,7 +116,7 @@ if (isPost()) {
 
             <!-- Email -->
             <div class="col-6 pb-3">
-                <label for="fullname">Email</label>
+                <label for="Email">Email</label>
                 <input id="email" name="email" type="text" class="form-control"
                     value="<?php if (!empty($oldData)) {
                                 echo oldData($oldData, 'email');
