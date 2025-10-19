@@ -16771,7 +16771,7 @@ body:not(.app-loaded) .app-footer {
 .navbar-nav > .user-menu > .dropdown-menu > li.user-header > p > small,
 .navbar-nav > .user-menu > .dropdown-menu > li.user-header > p > .small {
   display: block;
-  font-size: 12px;
+  font-size: 15px;
 }
 
 .navbar-nav > .user-menu > .dropdown-menu > .user-body {

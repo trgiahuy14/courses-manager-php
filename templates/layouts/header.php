@@ -7,6 +7,33 @@ if (!defined('_TRGIAHUY')) {
 if (!isLogin()) {
     redirect('?module=auth&action=login');
 }
+
+// Kiểm tra user
+$token = getSession('token_login');
+if (!empty($token)) {
+    $checkTokenLogin = getOne("SELECT * FROM token_login WHERE token = '$token'");
+    if (!empty($checkTokenLogin)) {
+        $user_id = $checkTokenLogin['user_id'];
+
+        $getUserDetail = getOne(
+
+            "SELECT a.fullname, a.avatar , a.group_id, b.name as group_name
+        FROM users a
+        INNER JOIN `groups`b
+        ON a.group_id = b.id
+        WHERE a.id=$user_id
+        "
+        );
+
+
+        if (!empty($getUserDetail)) {
+            $nameUser = $getUserDetail['fullname'];
+            $avatarUser = $getUserDetail['avatar'];
+            $userGroup = $getUserDetail['group_name'];
+        }
+    }
+}
+
 ?>
 
 <!doctype html>
@@ -49,8 +76,8 @@ if (!isLogin()) {
         crossorigin="anonymous" />
     <!--end::Third Party Plugin(Bootstrap Icons)-->
     <!--begin::Required Plugin(AdminLTE)-->
-    <link rel="stylesheet" href="<?php echo _HOST_URL_TEMPLATES; ?>/assets/css/adminlte.css" />
-    <link rel="stylesheet" href="<?php echo _HOST_URL_TEMPLATES; ?>/assets/css/custom.css?ver<?php rand() ?>" />
+    <link rel="stylesheet" href="<?php echo _HOST_URL_TEMPLATES; ?>/assets/css/adminlte.css?ver<?php echo rand() ?>" />
+    <link rel="stylesheet" href="<?php echo _HOST_URL_TEMPLATES; ?>/assets/css/custom.css?ver<?php echo rand() ?>" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <!--end::Required Plugin(AdminLTE)-->
     <!-- apexcharts -->
@@ -92,21 +119,21 @@ if (!isLogin()) {
                     <li class="nav-item dropdown user-menu">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <img
-                                src="<?php echo _HOST_URL_TEMPLATES ?>/assets/image/user-image.jpg"
+                                src="<?php echo _HOST_URL; ?><?php echo isset($avatarUser) ? $avatarUser : false ?>"
                                 class="user-image rounded-circle shadow"
                                 alt="User Image" />
-                            <span class="d-none d-md-inline">Trần Gia Huy</span>
+                            <span class="d-none d-md-inline"><?php echo isset($nameUser) ? $nameUser : false; ?></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                             <!--begin::User Image-->
                             <li class="user-header text-bg-primary">
                                 <img
-                                    src="<?php echo _HOST_URL_TEMPLATES; ?>/assets/image/user-image.jpg"
+                                    src="<?php echo _HOST_URL; ?><?php echo isset($avatarUser) ? $avatarUser : false; ?>"
                                     class="rounded-circle shadow"
                                     alt="User Image" />
                                 <p>
-                                    Alexander Pierce - Web Developer
-                                    <small>Member since Nov. 2023</small>
+                                    <?php echo isset($nameUser) ? $nameUser : false ?>
+                                    <small>- <?php echo isset($userGroup) ? $userGroup : false ?> -</small>
                                 </p>
                             </li>
                             <!--end::User Image-->
