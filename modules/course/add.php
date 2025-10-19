@@ -161,11 +161,11 @@ if (isPost()) {
             <div class="col-6 pb-3">
                 <label for="thumbnail">Thumbnail</label>
                 <input id="thumbnail" name="thumbnail" type="file" class="form-control">
-                <img id="previewImage" class="preview-image" src="" style="display:none;" alt="">
+                <img width="200px" id="previewImage" class="preview-image p-3" alt="">
             </div>
 
             <!-- Group -->
-            <div class="col-3 pb-3">
+            <div class=" col-3 pb-3">
                 <label for="category">Lĩnh vực</label>
                 <select name="category_id" id="category" class="form-select form-control">
                     <?php
@@ -181,5 +181,44 @@ if (isPost()) {
         <button type="submit" class="btn btn-success">Xác nhận</button>
     </form>
 </div>
+
+<script>
+    const thumbInput = document.getElementById('thumbnail');
+    const previewImage = document.getElementById('previewImage');
+
+    thumbInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImage.setAttribute('src', e.target.result);
+                previewImage.style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+        } else {
+            previewImage.style.display = 'none';
+        }
+    });
+</script>
+
+<script>
+    // Hàm giúp chuyển text thành slug
+    function createSlug(strig) {
+        return strig.toLowerCase()
+            .normalize('NFD') // Chuyển ký tự có dấu thành tổ hợp: é -> e + ' | lap trinh -> l+a+p+
+            .replace(/[\u0300-\u036f]/g, '') // Xóa dấu
+            .replace(/đ/g, 'd') // Thay đ -> d
+            .replace(/[^a-z0-9\s-]/g, '') // Xóa ký tự đặc biệt
+            .trim() // Xóa khoảng trắng
+            .replace(/\s+/g, '-') // Thay khoảng trắng -> -
+            .replace(/-+/g, '-') // Bỏ trùng dấu -
+    }
+
+
+    document.getElementById('name').addEventListener('input', function() {
+        const getValue = this.value;
+        document.getElementById('slug').value = createSlug(getValue);
+    })
+</script>
 
 <?php layout('footer') ?>
