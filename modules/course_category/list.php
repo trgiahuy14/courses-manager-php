@@ -2,7 +2,7 @@
 if (!defined('_TRGIAHUY')) {
     die('Truy cập không hợp lệ');
 }
-$data = ['title' => 'Danh sách khóa học'];
+$data = ['title' => 'Danh sách lĩnh vực'];
 layout('header', $data);
 layout('sidebar');
 
@@ -74,7 +74,7 @@ $msg_type = getSessionFlash('msg_type');
     <div class="container-fluid">
         <div class="row">
             <div class="col-6">
-                <h2>Thêm mới hoặc Chỉnh sửa</h2>
+                <?php require_once 'add.php'; ?>
             </div>
             <div class="col-6">
                 <h2>Danh sách lĩnh vực</h2>
