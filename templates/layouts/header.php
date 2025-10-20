@@ -139,7 +139,7 @@ if (!empty($token)) {
                             <!--end::User Image-->
                             <!--begin::Menu Body-->
                             <li class="user-body">
-                                <a href="#" style="width:100%" class="btn btn-default btn-flat">Profile</a>
+                                <a href="?module=users&action=profile" style="width:100%" class="btn btn-default btn-flat">Profile</a>
                             </li>
                             <!--end::Menu Body-->
                             <!--begin::Menu Footer-->
