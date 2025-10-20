@@ -46,8 +46,9 @@ if ($page > $maxPage || $page < 1) {
 $offset =  ($page - 1) * $perPage;
 
 // Get data from users table
-$getDetailCate = getAll("SELECT *
+$getDetailCate = getAll("SELECT * 
 FROM course_category $chuoiWhere 
+ORDER BY created_at DESC
 LIMIT $offset, $perPage
  ");
 
@@ -74,7 +75,14 @@ $msg_type = getSessionFlash('msg_type');
     <div class="container-fluid">
         <div class="row">
             <div class="col-6">
-                <?php require_once 'add.php'; ?>
+                <?php
+                if (!empty($filter['id']) && $filter['type'] == 'edit') {
+                    require_once 'edit.php';
+                } else {
+                    require_once 'add.php';
+                }
+
+                ?>
             </div>
             <div class="col-6">
                 <h2>Danh sách lĩnh vực</h2>
@@ -113,7 +121,7 @@ $msg_type = getSessionFlash('msg_type');
                                 <th scope="row"><?php echo $key + 1 ?></th>
                                 <td><?php echo $item['name']; ?></td>
                                 <td><?php echo $item['created_at']; ?></td>
-                                <td><a href="?module=course_category&action=edit&id=<?php echo $item['id']; ?>" class="btn btn-warning"><i class="fa-solid fa-pencil"></i></a></td>
+                                <td><a href="?module=course_category&action=list&id=<?php echo $item['id']; ?>&type=edit" class="btn btn-warning"><i class="fa-solid fa-pencil"></i></a></td>
                                 <td><a href="?module=course_category&action=delete&id=<?php echo $item['id']; ?>" onclick="return confirm('Bạn có chắc chắn muốn xóa không')" class=" btn btn-danger"><i class="fa-solid fa-trash"></i></a></td>
                             </tr>
                         <?php endforeach; ?>
