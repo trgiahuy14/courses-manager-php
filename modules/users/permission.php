@@ -94,6 +94,7 @@ if (!empty($checkID['permission'])) {
             </tbody>
         </table>
         <button type="submit" class="btn btn-primary">Xác nhận</button>
+        <a class="btn btn-success" href="?module=users&action=list">Quay lại</a>
     </form>
 </div>
 
