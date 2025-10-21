@@ -11,3 +11,9 @@
   font-style: italic;
   color: red;
 }
+
+.text-center-custom {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
