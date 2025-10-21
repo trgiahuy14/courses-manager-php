@@ -12,7 +12,7 @@ if (!defined('_TRGIAHUY')) {
         <a href="<?php echo _HOST_URL ?>" class="brand-link">
             <!--begin::Brand Image-->
             <img
-                src="<?php echo _HOST_URL_TEMPLATES; ?>/assets/image/adminlte-logo.png"
+                src="<?php echo _HOST_URL_TEMPLATES; ?>/assets/image/logo.png"
                 alt="Courses Manager Logo"
                 class="brand-image opacity-75 shadow" />
             <!--end::Brand Image-->
@@ -108,15 +108,13 @@ if (!defined('_TRGIAHUY')) {
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="?module=student" class="nav-link">
+                            <a href="?module=students" class="nav-link">
                                 <i class="nav-icon bi bi-circle"></i>
                                 <p>Danh sách học viên</p>
                             </a>
                         </li>
                     </ul>
                 </li>
-
-
                 <!--end::Sidebar Menu-->
         </nav>
     </div>
